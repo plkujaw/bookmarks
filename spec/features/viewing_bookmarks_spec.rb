@@ -7,8 +7,8 @@ feature "viewing a bookmarks" do
 
   scenario "user visiting /bookmarks page will see the list of bookmarks" do
     visit ("/bookmarks")
-    expect(page).to have_content("https://google.co.uk")
-    expect(page).to have_content("https://twitter.com")
+    expect(page).to have_content("https://google.com")
     expect(page).to have_content("https://linkedin.com")
+    expect(page).to have_content("https://makers.tech")
   end
 end
