@@ -22,6 +22,11 @@ describe Bookmark do
   end
 
   describe ".create" do
+    it "doesnt create a bookmark if the URL is not valid" do
+      Bookmark.create(url: "not a real bookmark", title: "not a real bookmark")
+      expect(Bookmark.all).to be_empty
+    end
+
     it "creates a new bookmark" do
       bookmark = Bookmark.create(url: "http://testbookmark.com", title: "Test Bookmark Title")
       persisted_data = persisted_data(id: bookmark.id)

@@ -1,13 +1,18 @@
 require "sinatra/base"
+require "sinatra/flash"
 require "./lib/bookmarks"
+require "./database_connection_setup"
+require "uri"
+
 
 class BookmarkManager < Sinatra::Base
 
   enable :sessions, :method_override
+  register Sinatra::Flash
 
   delete "/bookmarks/:id" do
     Bookmark.delete(id: params[:id])
-    redirect "/bookmarks"
+    redirect("/bookmarks")
   end
 
   get "/bookmarks/:id/edit" do
@@ -34,8 +39,10 @@ class BookmarkManager < Sinatra::Base
   end
 
   post "/bookmarks" do
-    Bookmark.create(title: params[:title], url: params[:url])
-    redirect "/bookmarks"
+    flash[:notice] = "This is not a valid URL!" unless
+    Bookmark.create(url: params[:url], title: params[:title])
+
+    redirect("/bookmarks")
   end
 
   run! if app_file == $0
