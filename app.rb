@@ -10,6 +10,15 @@ class BookmarkManager < Sinatra::Base
     redirect "/bookmarks"
   end
 
+  get "/bookmarks/:id/edit" do
+    @bookmark = Bookmark.find(id: params[:id])
+    erb :"bookmarks/edit"
+  end
+
+  patch "/bookmarks/:id" do
+    Bookmark.update(id: params[:id], url: params[:url], title: params[:title])
+    redirect("/bookmarks")
+  end
 
   get "/" do
     "Bookmarks Manager"
@@ -26,9 +35,6 @@ class BookmarkManager < Sinatra::Base
 
   post "/bookmarks" do
     Bookmark.create(title: params[:title], url: params[:url])
-    # url = params["url"]
-    # connection = PG.connect(dbname: "bookmark_manager_test")
-    # connection.exec("INSERT INTO bookmarks (url) VALUES ('#{url}')")
     redirect "/bookmarks"
   end
 
